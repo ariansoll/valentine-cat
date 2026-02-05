@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ولنتاین پرانکی 🐱</title>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background: linear-gradient(135deg, #ffd1dc, #fff1f5);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .box {
+      text-align: center;
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 360px;
+      position: relative;
+      z-index: 1;
+    }
+
+    img {
+      width: 220px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+      display: none; /* اول عکس مخفی باشه */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px;
+      position: absolute;
+    }
+
+    #yes {
+      background: #28a745; /* سبز */
+      color: white;
+      position: relative;
+      z-index: 1;
+      margin: 0;
+    }
+
+    #no {
+      background: #dc3545; /* قرمز */
+      color: white;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <img id="cat">
+    <h1 id="question">ولنتاین من میشی؟ 💘</h1>
+    <button id="yes">آره 😍</button>
+  </div>
+
+  <button id="no">نه 🙄</button>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const cat = document.getElementById("cat");
+    const question = document.getElementById("question");
+
+    let noCount = 0; // تعداد بار نه زدن
+
+    // مسیر عکس نهایی (گربه با تفنگ)
+    const finalCat = "cat-gun.jpg";
+
+    function moveNoButton() {
+      noCount++;
+
+      if (noCount === 5) {
+        // بعد از ۵ بار نه → عکس گربه با تفنگ بیاد و وسط صفحه قرار بگیره
+        cat.src = finalCat;
+        cat.style.display = "block";
+        question.textContent = "خب، حالا دیگه آره بگو 😎🔫";
+
+        // دکمه نه دیگه حرکت نکنه
+        noBtn.style.left = "50%";
+        noBtn.style.top = "70%";
+        noBtn.style.transform = "translateX(-50%)";
+      } else {
+        // قبل از ۵ بار نه → حرکت دکمه به جای جدید (با فاصله امن از حاشیه)
+        const padding = 50; // فاصله از لبه
+        const x = padding + Math.random() * (window.innerWidth - noBtn.offsetWidth - padding*2);
+        const y = padding + Math.random() * (window.innerHeight - noBtn.offsetHeight - padding*2);
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.style.transform = "none"; // برداشتن transform قبلی
+      }
+    }
+
+    noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    document.getElementById("yes").onclick = () => {
+      document.body.innerHTML = `
+        <div style="
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          flex-direction:column;
+          background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+          font-family:sans-serif;
+          text-align:center;
+        ">
+          <img src="cat-gun.jpg" style="width:240px;border-radius:20px;">
+          <h1>می‌دونستم 😍💖</h1>
+        </div>
+      `;
+    };
+  </script>
+
+</body>
+</html>
